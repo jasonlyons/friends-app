@@ -85,12 +85,17 @@
 	});
 	
 	$(document).on('pagebeforeshow', '#send-txt', function() {
-		var options = new ContactFindOptions();
-        options.filter = "Ly";
-        var fields = ["displayName", "name"];
-        navigator.contacts.find(fields, onSuccess, onError, options);
+		try {
+			var options = new ContactFindOptions();
+			options.filter = "Ly";
+			var fields = ["displayName", "name"];
+			navigator.contacts.find(fields, onSuccess, onError, options);
+		} catch (err) {
+			console.log(err);	
+		}
 		
 		function onSuccess(contacts) {
+			console.log(contacts);
 			for (var i = 0; i < contacts.length; i++) {
 				console.log("Display Name = " + contacts[i].displayName);
 				$("#contacts").append("<li>" + contacts[i].displayName + "</li>");
@@ -230,7 +235,7 @@
         <h4>&copy; 2015</h4>
         <div data-role="navbar">
             <ul>
-                <li><a href="#back" data-icon="home">Back</a></li>
+                <li><a href="#back" data-icon="home">Home</a></li>
             </ul>
         </div><!-- /navbar -->
 	</div><!-- /footer -->
