@@ -90,7 +90,8 @@
 		try {
 			var options = new ContactFindOptions();
 			options.filter = "";
-			var fields = ["*"];
+			options.multiple = true;
+			var fields = ["displayName","name","nickname"];
 			navigator.contacts.find(fields, onSuccess, onError, options);
 		} catch (err) {
 			console.log(err);	
