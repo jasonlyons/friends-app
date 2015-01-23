@@ -144,12 +144,13 @@
     
     <style>
 	.ui-header .ui-title {margin: 0 10%;}
+	#clickthru .ui-content {background-color:#fff;}
 	</style>
 </head>
 <body>
 
 <!-- Start of first page -->
-<div data-role="page" id="home">
+<div data-role="page" id="home" data-theme="a">
 
 	<div data-role="header" data-position="fixed">
 		<h1>Friends of the U.S. Chamber</h1>
@@ -166,9 +167,9 @@
 </div><!-- /page -->
 
 <!-- Start of second page -->
-<div data-role="page" id="clickthru" data-add-back-btn="true">
+<div data-role="page" id="clickthru" data-add-back-btn="true" data-theme="a">
 
-	<div data-role="header" data-position="fixed">
+	<div data-role="header" data-position="fixed" data-theme="b">
 		
         <h1>Friends of the U.S. Chamber</h1>
 	</div><!-- /header -->
@@ -177,7 +178,7 @@
 		
 	</div><!-- /content -->
 
-	<div data-role="footer" data-position="fixed">
+	<div data-role="footer" data-position="fixed" data-theme="b">
 		<a href="#home" data-icon="arrow-l">Back</a>
         <h4>&copy; 2015</h4>
 	</div><!-- /footer -->
