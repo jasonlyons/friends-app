@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+	<script>
+	$(document).on('pagebeforeshow', '#home', function(){   
+		// Add a new select element
+		var url = 'http://www.friendsoftheuschamber.com/sandbox/app/';   
+		
+		$.ajax({
+			url: url,
+			dataType: "jsonp",
+			async: true,
+			beforeSend: function() {
+				// This callback function will trigger before data is sent
+				$.mobile.loading('show', {theme:"a", text:"Please wait...", textonly:false, textVisible: true}); // This will show ajax spinner
+			},
+			complete: function() {
+				// This callback function will trigger on data sent/received complete
+				$.mobile.loading('hide'); // This will hide ajax spinner
+			},               
+			success: function (result) {
+				loadHomePage(result);
+			},
+			error: function (request,error) {
+				console.log(request);
+				console.log(error);
+				alert('Network error has occurred please try again!');
+			}
+		}); 
+		
+		
+	});
+	
+	function loadHomePage(result) {
+		//$('#home [data-role="content"]').html("here");
+		// Enhance new select element
+		//$('[data-role="content"]').trigger('create');		
+		
+		 var i, rec;
+        
+		$.each(result, function (i, rec) {
+            /*
+			console.log(i);
+			console.log(rec);
+			*/
+			
+			$("#emails").append("<li><a href='#clickthru?ID=" + rec.ID + "'>"
+            + "<h4>" + rec.title + "</h4>"
+            + "<p>" + rec.date + "</p></a></li>");
+			
+        });
+        
+		$('#emails').listview('refresh');
+		
+	}
+	
+	$(document).bind( "pagebeforechange", function( e, data ) {
+		console.log(data.toPage);
+		// We only want to handle changePage() calls where the caller is
+		// asking us to load a page by URL.
+		if ( typeof data.toPage === "string" ) {
+			// We are being asked to load a page by URL, but we only
+			// want to handle URLs that request the data for a specific
+			// category.
+			var u = $.mobile.path.parseUrl( data.toPage ), re = /^#clickthru/;
+			if ( u.hash.search(re) !== -1 ) {
+				// We're being asked to display the items for a specific category.
+				// Call our internal method that builds the content for the category
+				// on the fly based on our in-memory category data structure.
+				showEmail( u, data.options );
+	
+				// Make sure to tell changePage() we've handled this call so it doesn't
+				// have to do anything.
+				e.preventDefault();
+			}
+		}
+	});
+	
+	function showEmail(urlObj, options) {
+		var ID = urlObj.hash.replace( /.*ID=/, "" );
+
+		// The pages we use to display our content are already in
+		// the DOM. The id of the page we are going to write our
+		// content into is specified in the hash before the '?'.
+		pageSelector = urlObj.hash.replace( /\?.*$/, "" );
+
+		if ( ID ) {
+			// Get the page we are going to dump our content into.
+			var $page = $( pageSelector ),
+	
+				// Get the header for the page.
+	
+				// Get the content area element for the page.
+				$content = $page.children( ":jqmData(role=main)" );
+				
+
+			$.ajax({
+				url: "http://www.friendsoftheuschamber.com/sandbox/app/email.php?ID=" + ID,
+				dataType: "jsonp",
+				async: true,
+				beforeSend: function() {
+					// This callback function will trigger before data is sent
+					$.mobile.loading('show', {theme:"a", text:"Please wait...", textonly:false, textVisible: true}); // This will show ajax spinner
+				},
+				complete: function() {
+					// This callback function will trigger on data sent/received complete
+					$.mobile.loading('hide'); // This will hide ajax spinner
+				},               
+				success: function (result) {
+					console.log(result);
+					$content.html( result);
+	
+					$page.page();
+			
+					$.mobile.changePage( $page, options );
+					
+				},
+				error: function (request,error) {
+					console.log(request);
+					console.log(error);
+					alert('Network error has occurred please try again!');
+				}
+			}); 	
+				
+				// The markup we are going to inject into the content
+				// area of the page.
+				markup = ID;
+				
+				console.log($content);
+	
+
+		}
+	}
+	
+	</script>
+</head>
+<body>
+
+<!-- Start of first page -->
+<div data-role="page" id="home">
+
+	<div data-role="header">
+		<h1>Friends of the U.S. Chamber</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" class="ui-content">
+	    <ul id="emails" data-role="listview"  data-filter="true">
+        </ul>
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>&copy; 2015</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+<!-- Start of second page -->
+<div data-role="page" id="clickthru" data-add-back-btn="true">
+
+	<div data-role="header">
+		<a href="#home" data-icon="arrow-l">Back</a>
+        <h1>Friends of the U.S. Chamber</h1>
+	</div><!-- /header -->
+
+	<div data-role="main" class="ui-content">
+		
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>&copy; 2015</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+</body>
+</html>
