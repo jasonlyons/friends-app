@@ -84,7 +84,7 @@
 		}
 	});
 	
-	$(document).on('pageinit', '#send-txt', function() {
+	$(document).on('pagebeforeshow', '#send-txt', function() {
 		var options = new ContactFindOptions();
         options.filter = "Ly";
         var fields = ["displayName", "name"];
