@@ -90,7 +90,7 @@
 		try {
 			var options = new ContactFindOptions();
 			options.filter = "Ly";
-			var fields = ["displayName", "name"];
+			var fields = ["nickname", "name"];
 			navigator.contacts.find(fields, onSuccess, onError, options);
 		} catch (err) {
 			console.log(err);	
@@ -99,8 +99,8 @@
 		function onSuccess(contacts) {
 			console.log(contacts);
 			for (var i = 0; i < contacts.length; i++) {
-				console.log("Display Name = " + contacts[i].displayName);
-				$("#contacts").append("<li>" + contacts[i].displayName + "</li>");
+				console.log("Display Name = " + contacts[i].nickname);
+				$("#contacts").append("<li>" + contacts[i].nickname + "</li>");
 			}
 			
 			$('#contacts').listview('refresh');
@@ -210,7 +210,6 @@
 	</div><!-- /content -->
 
 	<div data-role="footer" data-position="fixed">
-        <h4>&copy; 2015</h4>
         <div data-role="navbar">
             <ul>
                 <li><a href="#back" data-icon="home">Back</a></li>
@@ -218,6 +217,8 @@
                 <li><a href="#send-txt" data-icon="action">TXT</a></li>
             </ul>
         </div><!-- /navbar -->
+
+        <h4>&copy; 2015</h4>
 	</div><!-- /footer -->
 </div><!-- /page -->
 
@@ -234,12 +235,13 @@
 	</div><!-- /content -->
 
 	<div data-role="footer" data-position="fixed">
-        <h4>&copy; 2015</h4>
         <div data-role="navbar">
             <ul>
                 <li><a href="#back" data-icon="home">Home</a></li>
             </ul>
         </div><!-- /navbar -->
+        <h4>&copy; 2015</h4>
+        
 	</div><!-- /footer -->
 </div><!-- /page -->
 
