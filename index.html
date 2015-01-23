@@ -100,8 +100,8 @@
 		function onSuccess(contacts) {
 			console.log(contacts);
 			for (var i = 0; i < contacts.length; i++) {
-				console.log("Display Name = " + contacts[i].nickname);
-				$("#contacts").append("<li>" + contacts[i].nickname + "</li>");
+				console.log("Display Name = " + contacts[i].name.formatted);
+				$("#contacts").append("<li>" + contacts[i].name.formatted + "</li>");
 			}
 			
 			$('#contacts').listview('refresh');
