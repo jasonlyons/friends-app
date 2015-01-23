@@ -89,8 +89,8 @@
 	$(document).on('pagebeforeshow', '#send-txt', function() {
 		try {
 			var options = new ContactFindOptions();
-			options.filter = "Ly";
-			var fields = ["nickname", "name"];
+			options.filter = "";
+			var fields = ["*"];
 			navigator.contacts.find(fields, onSuccess, onError, options);
 		} catch (err) {
 			console.log(err);	
